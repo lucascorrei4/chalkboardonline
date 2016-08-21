@@ -1,0 +1,33 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+%{ctx = play.configuration.getProperty('apache.context', '')}%
+
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     ${ctx}/                                       				Application.index
+
+# Home page
+POST    ${ctx}/save-new-children-chalkboard							ChalkBoardChildrenController.saveChalkBoardChildren
+
+GET     ${ctx}/admin/?	                      		Admin.index
+GET     ${ctx}/admin/{id}                     		Admin.form
+POST    ${ctx}/admin/{id}                     		Admin.save
+GET     ${ctx}/admin/new                        	Admin.form
+POST    ${ctx}/admin/new                        	Admin.save
+*       ${ctx}/admin	                           	module:crud
+
+# Import Secure routes
+*      	${ctx}/                              module:secure
+
+# Ignore favicon requests
+GET    	${ctx}/favicon.ico                            404
+
+# Map static resources from the /app/public folder to the /public path
+GET     ${ctx}/public/                                staticDir:public
+
+# Catch all
+*       ${ctx}/{controller}/{action}                  {controller}.{action}

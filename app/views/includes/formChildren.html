@@ -1,0 +1,128 @@
+<meta charset="utf-8" />
+<form action="/" method="get" id="form1">
+<p class="er">#{error 'chalkboard.name' /}</p>
+<input type="hidden" id="model" name="chalkboard.name" value="" />
+
+<input type="text" id="name" placeholder="Nome, ex.: Louise"
+	name="chalkboard.name" value="${flash['chalkboard.name']}">
+
+<p class="er">#{error 'chalkboard.birthDay' /}</p>
+<input type="text" id="birthDay"
+	placeholder="Data do aniversário, ex.: 26.08.2016"
+	name="chalkboard.birthDay" value="${flash['chalkboard.birthDay']}">
+
+<p class="er">#{error 'chalkboard.age' /}</p>
+<input type="text" id="age" placeholder="Idade, ex.: 1 aninho"
+	name="chalkboard.age" value="${flash['chalkboard.age']}">
+
+<p class="er">#{error 'chalkboard.bornWeight' /}</p>
+<input type="text" id="bornWeight"
+	placeholder="Nasci com (peso), ex.: 3,570 kg"
+	name="chalkboard.bornWeight" value="${flash['chalkboard.bornWeight']}">
+
+<p class="er">#{error 'chalkboard.bornHeight' /}</p>
+<input type="text" id="bornHeight"
+	placeholder="Nasci com (comprimento), ex.: 51 cm"
+	name="chalkboard.bornHeight" value="${flash['chalkboard.bornHeight']}">
+
+<p class="er">#{error 'chalkboard.heightNow' /}</p>
+<input type="text" id="heightNow"
+	placeholder="Eu tenho (de altura hoje), ex.: 73 cm"
+	name="chalkboard.heightNow" value="${flash['chalkboard.heightNow']}">
+
+<p class="er">#{error 'chalkboard.weightNow' /}</p>
+<input type="text" id="weightNow" placeholder="Eu peso, ex.: 8,850 kg"
+	name="chalkboard.weightNow" value="${flash['chalkboard.weightNow']}">
+
+<p class="er">#{error 'chalkboard.teeth' /}</p>
+<input type="text" id="teeth" placeholder="Tenho (dentes), ex.: 8"
+	name="chalkboard.teeth" value="${flash['chalkboard.teeth']}">
+
+<p class="er">#{error 'chalkboard.likeToDo1' /}</p>
+<input type="text" id="likeToDo1"
+	placeholder="Gosto muito de (1), ex.: Passear"
+	name="chalkboard.likeToDo1" value="${flash['chalkboard.likeToDo1']}">
+
+<p class="er">#{error 'chalkboard.likeToDo2' /}</p>
+<input type="text" id="likeToDo2"
+	placeholder="Gosto muito de (2), ex.: Livros"
+	name="chalkboard.likeToDo2" value="${flash['chalkboard.likeToDo2']}">
+
+<p class="er">#{error 'chalkboard.likeToDo3' /}</p>
+<input type="text" id="likeToDo3"
+	placeholder="Gosto muito de (3), ex.: Colinho"
+	name="chalkboard.likeToDo3" value="${flash['chalkboard.likeToDo3']}">
+
+<p class="er">#{error 'chalkboard.likeToDo4' /}</p>
+<input type="text" id="likeToDo4"
+	placeholder="Gosto muito de (4), ex.: Controle remoto"
+	name="chalkboard.likeToDo4" value="${flash['chalkboard.likeToDo4']}">
+
+<p class="er">#{error 'chalkboard.likeToWatch1' /}</p>
+<input type="text" id="likeToWatch1"
+	placeholder="Gosto de assistir (1), ex.: 3 palavrinhas"
+	name="chalkboard.likeToWatch1"
+	value="${flash['chalkboard.likeToWatch1']}">
+
+<p class="er">#{error 'chalkboard.likeToWatch2' /}</p>
+<input type="text" id="likeToWatch2"
+	placeholder="Gosto de assistir (2), ex.: Galinha pintadinha"
+	name="chalkboard.likeToWatch2"
+	value="${flash['chalkboard.likeToWatch2']}">
+
+<p class="er">#{error 'chalkboard.know1' /}</p>
+<input type="text" id="know1"
+	placeholder="Eu sei (1), ex.: Bater palminha" name="chalkboard.know1"
+	value="${flash['chalkboard.know1']}">
+
+<p class="er">#{error 'chalkboard.know2' /}</p>
+<input type="text" id="know2" placeholder="Eu sei (2), ex.: Dar tchau"
+	name="chalkboard.know2" value="${flash['chalkboard.know2']}">
+
+<p class="er">#{error 'chalkboard.know3' /}</p>
+<input type="text" id="know3" placeholder="Eu sei (3), ex.: Engatinhar"
+	name="chalkboard.know3" value="${flash['chalkboard.know3']}">
+
+<p class="er">#{error 'chalkboard.likeToEat1' /}</p>
+<input type="text" id="likeToEat1"
+	placeholder="Gosto de comer (1), ex.: Banana"
+	name="chalkboard.likeToEat1" value="${flash['chalkboard.likeToEat1']}">
+
+<p class="er">#{error 'chalkboard.likeToEat2' /}</p>
+<input type="text" id="likeToEat2"
+	placeholder="Gosto de comer (2), ex.: Carninha"
+	name="chalkboard.likeToEat2" value="${flash['chalkboard.likeToEat2']}">
+
+<p class="er">#{error 'chalkboard.firstWord1' /}</p>
+<input type="text" id="firstWord1"
+	placeholder="Primeiras palavras (1), ex.: Auau"
+	name="chalkboard.firstWord1" value="${flash['chalkboard.firstWord1']}">
+
+<p class="er">#{error 'chalkboard.firstWord2' /}</p>
+<input type="text" id="firstWord2"
+	placeholder="Primeiras palavras (2), ex.: Papa"
+	name="chalkboard.firstWord2" value="${flash['chalkboard.firstWord2']}">
+
+<p class="er">#{error 'chalkboard.firstWord3' /}</p>
+<input type="text" id="firstWord3"
+	placeholder="Primeiras palavras (3), ex.: Mama"
+	name="chalkboard.firstWord3" value="${flash['chalkboard.firstWord3']}">
+
+<p class="er">#{error 'chalkboard.nickName1' /}</p>
+<input type="text" id="nickName1" placeholder="Apelidos (1), ex.: Lou"
+	name="chalkboard.nickName1" value="${flash['chalkboard.nickName1']}">
+
+<p class="er">#{error 'chalkboard.nickName2' /}</p>
+<input type="text" id="nickName2" placeholder="Apelidos (2), ex.: Lolou"
+	name="chalkboard.nickName2" value="${flash['chalkboard.nickName2']}">
+
+<p class="er">#{error 'chalkboard.nickName3' /}</p>
+<input type="text" id="nickName3"
+	placeholder="Apelidos (3), ex.: Babylou" name="chalkboard.nickName3"
+	value="${flash['chalkboard.nickName3']}">
+
+<div class="contact-but">
+	<input id="saveAndPay" type="button" value="Salvar e pagar" onclick="saveChildrenChalkBoard();" />
+	<a style="display: none;" id="toPayment" href="#message"></a>
+</div>
+</form>
