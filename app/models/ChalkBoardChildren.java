@@ -1,38 +1,107 @@
 package models;
 
-import javax.persistence.Entity;
+import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import play.data.binding.As;
+import play.data.validation.Required;
 import play.db.jpa.Model;
 
 @Entity
 public class ChalkBoardChildren extends Model {
+
 	public String model;
+
+	@Required(message = "Campo obrigatório.")
 	public String name;
+
+	@Required(message = "Campo obrigatório.")
 	public String birthDay;
+
+	@Required(message = "Campo obrigatório.")
 	public String age;
+
+	@Required(message = "Campo obrigatório.")
 	public String bornHeight;
+
+	@Required(message = "Campo obrigatório.")
 	public String bornWeight;
+
+	@Required(message = "Campo obrigatório.")
 	public String heightNow;
+
+	@Required(message = "Campo obrigatório.")
 	public String weightNow;
+
+	@Required(message = "Campo obrigatório.")
 	public String teeth;
+
+	@Required(message = "Campo obrigatório.")
 	public String likeToDo1;
+
+	@Required(message = "Campo obrigatório.")
 	public String likeToDo2;
+
+	@Required(message = "Campo obrigatório.")
 	public String likeToDo3;
+
 	public String likeToDo4;
+
+	@Required(message = "Campo obrigatório.")
 	public String likeToWatch1;
+
+	@Required(message = "Campo obrigatório.")
 	public String likeToWatch2;
+
+	@Required(message = "Campo obrigatório.")
 	public String know1;
+
+	@Required(message = "Campo obrigatório.")
 	public String know2;
+
 	public String know3;
+
+	@Required(message = "Campo obrigatório.")
 	public String likeToEat1;
+
+	@Required(message = "Campo obrigatório.")
 	public String likeToEat2;
+
+	@Required(message = "Campo obrigatório.")
 	public String firstWord1;
+
+	@Required(message = "Campo obrigatório.")
 	public String firstWord2;
+
 	public String firstWord3;
+
+	@Required(message = "Campo obrigatório.")
 	public String nickName1;
+
+	@Required(message = "Campo obrigatório.")
 	public String nickName2;
+
 	public String nickName3;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@As("yyyy-MM-dd HH:mm:ss")
+	public Date postedAt = new Date();
 	
+	public String toString() {
+		return name;
+	}
+
+	public Date getPostedAt() {
+		return postedAt;
+	}
+
+	public void setPostedAt(Date postedAt) {
+		this.postedAt = postedAt;
+	}
+
 	public String getModel() {
 		return model;
 	}

@@ -1,5 +1,8 @@
 package controllers;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
+import com.google.gdata.util.common.base.Escaper;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -9,7 +12,6 @@ import play.mvc.With;
 import util.Utils;
 
 @CRUD.For(models.ChalkBoardChildren.class)
-@With(Secure.class)
 public class ChalkBoardChildrenController extends CRUD {
 
 	public static void saveChalkBoardChildren(String json) {
@@ -22,23 +24,21 @@ public class ChalkBoardChildrenController extends CRUD {
 		} else {
 			obj = parser.parse(json).getAsJsonObject();
 		}
-		ChalkBoardChildren chalkBoardChildren = gson.fromJson(obj.getAsString(), ChalkBoardChildren.class);
-		if (validateForm(chalkBoardChildren))
+		String jsonChalk = gson.toJson(obj.toString(), String.class);
+		ChalkBoardChildren chalkBoardChildren = gson.fromJson(jsonChalk, ChalkBoardChildren.class);
+		if (validateForm(chalkBoardChildren)) {
 			render();
+		}
 	}
 
 	private static boolean validateForm(ChalkBoardChildren chalkBoardChildren) {
 		boolean retorno = false;
 		validation.valid(chalkBoardChildren);
-		if (chalkBoardChildren.name == null) {
-			flash.error("Campo obrigatório.");
-			retorno = false;
-		}
 		if (validation.hasErrors()) {
-			params.flash();
 			validation.keep();
+			params.flash();
+			renderTemplate("includes/formChildren.html", chalkBoardChildren);
 			retorno = false;
-			render("@includes.formChildren", chalkBoardChildren);
 		} else {
 			retorno = true;
 		}
