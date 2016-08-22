@@ -2625,5 +2625,6 @@ h2.general {
 	font-weight: bold;
 	margin: 0 auto;
 	text-align: left;
+	float: left;
 }
 

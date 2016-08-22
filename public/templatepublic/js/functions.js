@@ -1,3 +1,14 @@
+$(window).load(function() {
+	var hiddenModel = document.getElementById('model');
+	if (hiddenModel.value) {
+		var idSelectedModel = hiddenModel.value;
+		var selectedModel = document.getElementById(idSelectedModel);
+		highlightModel(selectedModel);
+		selectedModel.classList;
+		selectedModel.classList.add('active');
+	}
+});
+
 function highlightModel(element) {
 	element.style.background = '#F6F6F6';
 }
@@ -42,7 +53,7 @@ function saveChildrenChalkBoard() {
 		return;
 	} else {
 		var jsonChalkBoard = getJsonChalkBoardChildren();
-		if(JSON.stringify(jsonChalkBoard) === '{}') {
+		if (JSON.stringify(jsonChalkBoard) === '{}') {
 			$("#message").show();
 			$("#message").html('Favor, preencha os campos do ChalkBoard!');
 			setTimeout('$("#message").hide()', 5000);
@@ -54,21 +65,27 @@ function saveChildrenChalkBoard() {
 					type : 'POST',
 					url : '/save-new-children-chalkboard',
 					dataType : 'json',
+					contentType : "application/json",
 					data : jsonChalkBoard,
 					success : function(data) {
 						$("#message").show();
-						$("#message").html(
-						'Pedido salvo com sucesso! Efetue o pagamento para efetivação!');
+						$("#message")
+								.html(
+										'Pedido salvo com sucesso! Efetue o pagamento para efetivação!');
 						setTimeout('$("#message").hide()', 5000);
-						anchorToPayment();
+						location.reload();
+						setTimeout(function() {
+							anchorToPayment();
+						}, 1000);
 					},
 					error : function(data) {
+						location.reload();
+						anchorToMessage();
 						$("#message").show()
 						$("#message")
 								.html(
 										'Ocorreu um erro ao salvar. Por favor, tente novamente. :(');
 						setTimeout('$("#message").hide()', 5000);
-						anchorToPayment();
 					}
 				});
 		return false;
@@ -108,5 +125,19 @@ function getJsonChalkBoardChildren() {
 }
 
 function anchorToPayment() {
-	document.getElementById('toPayment').click();	
+	document.getElementById('toPayment').click();
+}
+
+function anchorToMessage() {
+	document.getElementById('toMessage').click();
+}
+
+function reloadWithMessageAnchor() {
+	var anchor = "/#message";
+	window.location = anchor;
+}
+
+function reloadWithMessageAnchor(reload) {
+	window.location.hash = '#message';
+	window.location.reload(true);
 }

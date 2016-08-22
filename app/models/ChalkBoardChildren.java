@@ -1,5 +1,6 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -89,9 +90,10 @@ public class ChalkBoardChildren extends Model {
 	@Temporal(TemporalType.TIMESTAMP)
 	@As("yyyy-MM-dd HH:mm:ss")
 	public Date postedAt = new Date();
-	
+
 	public String toString() {
-		return name;
+		return String.format("ChalkBoardChildren[model = %s, name = %s, birthDay = %s, age = %s]", getModel(), getName(), getBirthDay(),
+				getAge());
 	}
 
 	public Date getPostedAt() {
