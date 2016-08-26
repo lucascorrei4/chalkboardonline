@@ -92,6 +92,19 @@ function saveChildrenChalkBoard() {
 	}
 }
 
+function saveChildrenChalkBoardObj() {
+	if ($('#model').val() == '') {
+		$("#message").show();
+		$("#message").html('Favor, escolha um modelo!');
+		setTimeout('$("#message").hide()', 5000);
+		anchorToPayment();
+		return;
+	} else {
+		var formData = $('#formChalkBoardChildren').serializeArray();
+		$('#formChalkBoardChildren').load('/chalkboardchildrencontroller/savechalkboardchildrenobj', formData);
+	}
+}
+
 function getJsonChalkBoardChildren() {
 	var jsonChalkChildren = new Object();
 	jsonChalkChildren.model = $('#model').val();

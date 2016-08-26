@@ -1,17 +1,16 @@
 package controllers;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 
 import models.ChalkBoardChildren;
 import util.Utils;
@@ -21,11 +20,9 @@ public class ChalkBoardChildrenController extends CRUD {
 
 	public static void saveChalkBoardChildren(String json) {
 		String[] fields = request.params.data.get("body");
-		HashMap<String, Object> maps = ChalkBoardChildrenController.parse(fields[0]);
-		String[] result = maps.values().toArray(new String[0]);
-		HashMap<String, String[]> newMapParameters = new HashMap<String, String[]>();
-		newMapParameters.put("body", result);
-		request.params.data = newMapParameters;
+		String[] parsedBody = parseMapBody(fields);
+		request.params.data.remove("body");
+		request.params.data.put("body", parsedBody);
 		Gson gson = new GsonBuilder().create();
 		ChalkBoardChildren chalkBoardChildren = gson.fromJson(fields[0], ChalkBoardChildren.class);
 		if (validateForm(chalkBoardChildren)) {
@@ -33,12 +30,65 @@ public class ChalkBoardChildrenController extends CRUD {
 		}
 	}
 
-	private static HashMap<String, Object> parse(String json) {
+	public static void saveChalkBoardChildrenObj(String json) {
+		String[] fields = request.params.data.get("body");
+		Gson gson = new GsonBuilder().create();
+		String jsonParam = transformQueryParamToJson(fields[0]);
+		ChalkBoardChildren chalkBoardChildren = gson.fromJson(jsonParam, ChalkBoardChildren.class);
+		validation.valid(chalkBoardChildren);
+		if (validation.hasErrors()) {
+			params.flash();
+			validation.keep();
+			render("includes/formchildren.html", chalkBoardChildren);
+		}
+	}
+
+	private static String transformQueryParamToJson(String queryParam) {
+		StringTokenizer st = new StringTokenizer(queryParam, "&");
+		String json = "{";
+		while (st.hasMoreTokens()) {
+			String str = st.nextToken();
+			String replaceKey = str.replace("chalkBoardChildren.", "");
+			int indexKey = replaceKey.indexOf("=");
+			String key = replaceKey.substring(0, indexKey);
+			String value = replaceKey.substring(indexKey + 1, replaceKey.length());
+			value = (Utils.isNullOrEmpty(value) ? "" : new String(value).replace(" ", "+"));
+			json = json.concat("\"").concat(key).concat("\"").concat(":").concat("\"").concat(value).concat("\"");
+			if (st.hasMoreTokens()) {
+				json = json.concat(",");
+			}
+		}
+		json = json.concat("}");
+		return json;
+	}
+
+	private static String[] parseMapBody(String[] fields) {
+		JsonParser parser = new JsonParser();
+		JsonObject object = (JsonObject) parser.parse(fields[0]);
+		Set<Map.Entry<String, JsonElement>> set = object.entrySet();
+		int i = 0;
+		String parsedBody = "";
+		for (Iterator<Map.Entry<String, JsonElement>> iterator = set.iterator(); iterator.hasNext(); i++) {
+			Map.Entry<String, JsonElement> entry = iterator.next();
+			String key = entry.getKey();
+			JsonElement value = entry.getValue();
+			parsedBody = parsedBody.concat("chalkBoardChildren.").concat(key).concat("=").concat(
+					Utils.isNullOrEmpty(value.getAsString()) ? "" : new String(value.getAsString()).replace(" ", "+"));
+			if (i < (set.size() + 1)) {
+				parsedBody = parsedBody.concat("&");
+			}
+		}
+		String[] contentMap = new String[1];
+		contentMap[0] = parsedBody;
+		return contentMap;
+	}
+
+	private static Map<String, Object> parse(String json) {
 		JsonParser parser = new JsonParser();
 		JsonObject object = (JsonObject) parser.parse(json);
 		Set<Map.Entry<String, JsonElement>> set = object.entrySet();
 		Iterator<Map.Entry<String, JsonElement>> iterator = set.iterator();
-		HashMap<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 		while (iterator.hasNext()) {
 			Map.Entry<String, JsonElement> entry = iterator.next();
 			String key = entry.getKey();

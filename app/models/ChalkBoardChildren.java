@@ -92,8 +92,7 @@ public class ChalkBoardChildren extends Model {
 	public Date postedAt = new Date();
 
 	public String toString() {
-		return String.format("ChalkBoardChildren[model = %s, name = %s, birthDay = %s, age = %s]", getModel(), getName(), getBirthDay(),
-				getAge());
+		return name;
 	}
 
 	public Date getPostedAt() {
