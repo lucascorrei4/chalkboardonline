@@ -100,8 +100,16 @@ function saveChildrenChalkBoardObj() {
 		anchorToPayment();
 		return;
 	} else {
-		var formData = $('#formChalkBoardChildren').serializeArray();
-		$('#formChalkBoardChildren').load('/chalkboardchildrencontroller/savechalkboardchildrenobj', formData);
+		var formData;
+		formData = $('#formChalkBoardChildren').serializeArray();
+		$('#formChalkBoardChildren').load(
+				'/chalkboardchildrencontroller/savechalkboardchildrenobj',
+				formData, function(response, status) {
+					$("#message").show();
+					$("#message").html($("#response").val());
+					setTimeout('$("#message").hide()', 8000);
+					anchorToPayment();
+				});
 	}
 }
 

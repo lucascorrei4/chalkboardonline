@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -34,12 +37,26 @@ public class ChalkBoardChildrenController extends CRUD {
 		String[] fields = request.params.data.get("body");
 		Gson gson = new GsonBuilder().create();
 		String jsonParam = transformQueryParamToJson(fields[0]);
-		ChalkBoardChildren chalkBoardChildren = gson.fromJson(jsonParam, ChalkBoardChildren.class);
+		ChalkBoardChildren chalkBoardChildren = new ChalkBoardChildren();
+		chalkBoardChildren = gson.fromJson(jsonParam, ChalkBoardChildren.class);
+		chalkBoardChildren.id = 0l;
+		chalkBoardChildren.setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
+		chalkBoardChildren.willBeSaved = true;
+		String error = null;
+		validation.clear();
 		validation.valid(chalkBoardChildren);
 		if (validation.hasErrors()) {
+			for (play.data.validation.Error e : validation.errors()) {
+				System.out.println(e.message());
+			}
 			params.flash();
 			validation.keep();
-			render("includes/formchildren.html", chalkBoardChildren);
+			error = "Preencha os campos obrigatórios!";
+			render("includes/formchildren.html", chalkBoardChildren, error);
+		} else {
+			chalkBoardChildren.merge();
+			error = "Informações inseridas com sucesso! Aguardando pagamento para efetivar o pedido!";
+			render("includes/formchildren.html", chalkBoardChildren, error);
 		}
 	}
 
@@ -52,7 +69,7 @@ public class ChalkBoardChildrenController extends CRUD {
 			int indexKey = replaceKey.indexOf("=");
 			String key = replaceKey.substring(0, indexKey);
 			String value = replaceKey.substring(indexKey + 1, replaceKey.length());
-			value = (Utils.isNullOrEmpty(value) ? "" : new String(value).replace(" ", "+"));
+			value = (Utils.isNullOrEmpty(value) ? "" : new String(value).replace("+", " ").trim());
 			json = json.concat("\"").concat(key).concat("\"").concat(":").concat("\"").concat(value).concat("\"");
 			if (st.hasMoreTokens()) {
 				json = json.concat(",");
