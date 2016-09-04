@@ -1396,7 +1396,8 @@ h2.general {
 	-ms-border-radius: 0.3em;
 }
 
-.contact-but input[type="submit"], .contact-but input[type="reset"], .contact-but input[type="button"] {
+.contact-but input[type="submit"], .contact-but input[type="reset"],
+	.contact-but input[type="button"] {
 	border: none;
 	outline: none;
 	color: #fff;
@@ -1423,6 +1424,7 @@ h2.general {
 	-o-transition: 0.5s all;
 	-ms-transition: 0.5s all;
 }
+
 .contact-but input[type="button"]:hover {
 	background: #363636;
 	transition: 0.5s all;
@@ -2628,3 +2630,8 @@ h2.general {
 	float: left;
 }
 
+#message {
+	font-weight: bold;
+	font-size: 20px;
+	width: 75%;
+}

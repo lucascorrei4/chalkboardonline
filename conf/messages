@@ -1,3 +1,17 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+
+validation.phone=Formato inválido. Favor preencha no formato: (99) 9999-9999.
+validation.somedate=Insira a data no formato 01/01/2001.
+validation.prayorders=Insira os pedidos de oração separados por ponto e vírgula (;).
+validation.required=Favor, preencha este campo.
+validation.maxSize=Tamanho máximo: %s caracteres.
+validation.matchAge=Ex.: 20-31 = Faixa etária de 20 a 31 anos.
+validation.matchAge.erro=Erro. Favor, preencha a faixa etária no formato: 16-29.
+validation.email=Formato de e-mail inválido.
+validation.incorrectValue=Valor inválido.
+validation.min=Preencha o campo. 
+validation.unique=Este ítem já foi cadastrado. Favor, insira outro.
+validation.object=Há erros no cadastro. Verifique suas informações.
+validation.invalid=Verifique os dados inseridos.

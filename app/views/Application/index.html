@@ -126,18 +126,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						<div class="clearfix"></div>
 					</div>
 				</div>
-				<span id="message"></span>
+				<div class="contact-top">
+					<p id="message"></p>
+				</div>
 				<div class="contact-bottom col-md-12">
 					<!--form-children-->
 					<div class="contact-bottom col-md-6">
-						<h2 class="general">CHALKBOARD</h2>
 						#{include 'includes/formChildren.html' /}
 					</div>
 					<!--form-children-->
 					<!--form-payment-->
 					<div class="contact-bottom col-md-6">
 						<h2 class="general">PAGAMENTO</h2>
-						#{include 'includes/formPayment.html' /}
+						<a href="http://www.moip.com.br/" target="_blank"><img src="http://www.moip.com.br/imgs/banner_5_1.jpg" border="0"></a>
+						<form method='post' action='https://desenvolvedor.moip.com.br/sandbox/PagamentoMoIP.do'>
+							<input type='hidden' name='id_carteira' value='lucascorreiaevangelista@gmail.com'/>
+							<input type='hidden' name='valor' value='4999'/>
+							<input type='hidden' name='nome' value='ChalkBoard Digital'/>
+							<input type='hidden' name='descricao' value='Pedido de ChalkBoard Digital'/>
+							<input type='hidden' name='id_transacao' value=''/>
+							<input type='hidden' name='pagador_nome' value=''/>
+							<input type='hidden' name='pagador_email' value=''/>
+							<input type='image' name='submit' src='https://static.moip.com.br/imgs/buttons/bt_pagar_c02_e01.png' alt='Pagar' border='0' />
+						</form>
 					</div>
 				</div>
 			</div>

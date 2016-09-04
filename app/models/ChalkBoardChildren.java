@@ -10,6 +10,7 @@ import javax.persistence.TemporalType;
 
 import controllers.CRUD.Hidden;
 import play.data.binding.As;
+import play.data.validation.Email;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 import util.Utils;
@@ -18,6 +19,13 @@ import util.Utils;
 public class ChalkBoardChildren extends Model {
 
 	public String model;
+
+	@Required(message = "Campo obrigatório.")
+	public String userName;
+
+	@Required(message = "Campo obrigatório.")
+	@Email
+	public String mail;
 
 	@Required(message = "Campo obrigatório.")
 	public String name;
@@ -42,6 +50,22 @@ public class ChalkBoardChildren extends Model {
 
 	@Required(message = "Campo obrigatório.")
 	public String teeth;
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getMail() {
+		return mail;
+	}
+
+	public void setMail(String mail) {
+		this.mail = mail;
+	}
 
 	@Required(message = "Campo obrigatório.")
 	public String likeToDo1;
@@ -89,6 +113,8 @@ public class ChalkBoardChildren extends Model {
 	public String nickName2;
 
 	public String nickName3;
+
+	public String orderCode;
 
 	@Hidden
 	public String postedAt;
@@ -304,7 +330,7 @@ public class ChalkBoardChildren extends Model {
 	public void setNickName3(String nickName3) {
 		this.nickName3 = nickName3;
 	}
-	
+
 	public String getPostedAt() throws ParseException {
 		if (this.postedAt == null) {
 			setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
@@ -314,5 +340,13 @@ public class ChalkBoardChildren extends Model {
 
 	public void setPostedAt(String postedAt) {
 		this.postedAt = postedAt;
+	}
+	
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
 	}
 }

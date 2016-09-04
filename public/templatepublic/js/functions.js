@@ -100,15 +100,38 @@ function saveChildrenChalkBoardObj() {
 		anchorToPayment();
 		return;
 	} else {
-		var formData;
-		formData = $('#formChalkBoardChildren').serializeArray();
+		var formDataJSON = {};
+	    var formData = $('#formChalkBoardChildren').serializeArray();
+	    decodeURIComponent(formData);
+	    $.each(formData, function() {
+	        if (formDataJSON[this.name] !== undefined) {
+	            if (!formDataJSON[this.name].push) {
+	            	formDataJSON[this.name] = [formDataJSON[this.name]];
+	            }
+	            formDataJSON[this.name].push(this.value || '');
+	        } else {
+	        	formDataJSON[this.name] = this.value || '';
+	        }
+	    });
 		$('#formChalkBoardChildren').load(
-				'/chalkboardchildrencontroller/savechalkboardchildrenobj',
-				formData, function(response, status) {
-					$("#message").show();
-					$("#message").html($("#response").val());
-					setTimeout('$("#message").hide()', 8000);
+				'/chalkboardchildrencontroller/savechalkboardchildren',
+				formDataJSON, function(response, status) {
 					anchorToPayment();
+					var status = $("#status").val(); 
+					if ('SUCCESS' === status) {
+						$("[name='id_transacao']").val($("#orderCode").val());
+						$("[name='pagador_nome']").val($("#userName").val());
+						$("[name='pagador_email']").val($("#mail").val());
+						$("#message").css("color", "gray");
+						$("#message").show();
+						$("#message").html($("#response").val() + '<br /> Código do Pedido: ' + $("#orderCode").val() + '.');
+						$("#formChalkBoardChildren :input").attr("disabled", true);
+					} else {
+						$("#message").css("color", "red");
+						$("#message").show();
+						$("#message").html($("#response").val());
+						setTimeout('$("#message").hide()', 10000);
+					}
 				});
 	}
 }

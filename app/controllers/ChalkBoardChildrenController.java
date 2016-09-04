@@ -1,5 +1,7 @@
 package controllers;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -8,6 +10,9 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.bouncycastle.util.Strings;
+import org.h2.util.StringUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -20,29 +25,23 @@ import util.Utils;
 
 @CRUD.For(models.ChalkBoardChildren.class)
 public class ChalkBoardChildrenController extends CRUD {
-
-	public static void saveChalkBoardChildren(String json) {
+	
+	public static void saveChalkBoardChildren(String json) throws UnsupportedEncodingException {
 		String[] fields = request.params.data.get("body");
-		String[] parsedBody = parseMapBody(fields);
-		request.params.data.remove("body");
-		request.params.data.put("body", parsedBody);
+		String decodedFields = URLDecoder.decode(fields[0], "UTF-8");
 		Gson gson = new GsonBuilder().create();
-		ChalkBoardChildren chalkBoardChildren = gson.fromJson(fields[0], ChalkBoardChildren.class);
-		if (validateForm(chalkBoardChildren)) {
-			render();
-		}
-	}
-
-	public static void saveChalkBoardChildrenObj(String json) {
-		String[] fields = request.params.data.get("body");
-		Gson gson = new GsonBuilder().create();
-		String jsonParam = transformQueryParamToJson(fields[0]);
+		String jsonParam = transformQueryParamToJson(decodedFields);
+		JsonParser parser = new JsonParser();
+		JsonObject jsonElement = (JsonObject) parser.parse(jsonParam);
+		jsonElement.addProperty("id", Long.valueOf(0));
 		ChalkBoardChildren chalkBoardChildren = new ChalkBoardChildren();
-		chalkBoardChildren = gson.fromJson(jsonParam, ChalkBoardChildren.class);
+		chalkBoardChildren = gson.fromJson(jsonElement, ChalkBoardChildren.class);
 		chalkBoardChildren.id = 0l;
 		chalkBoardChildren.setPostedAt(Utils.getCurrentDateTimeByFormat("dd/MM/yyyy HH:mm:ss"));
 		chalkBoardChildren.willBeSaved = true;
 		String error = null;
+		String status = null;
+		String order = null;
 		validation.clear();
 		validation.valid(chalkBoardChildren);
 		if (validation.hasErrors()) {
@@ -52,11 +51,15 @@ public class ChalkBoardChildrenController extends CRUD {
 			params.flash();
 			validation.keep();
 			error = "Preencha os campos obrigatórios!";
-			render("includes/formchildren.html", chalkBoardChildren, error);
+			status = "ERROR";
+			render("includes/formchildren.html", chalkBoardChildren, error, status);
 		} else {
+			chalkBoardChildren.setOrderCode("CCH" + Utils.generateRandomId());
 			chalkBoardChildren.merge();
-			error = "Informações inseridas com sucesso! Aguardando pagamento para efetivar o pedido!";
-			render("includes/formchildren.html", chalkBoardChildren, error);
+			error = "Recebemos o seu pedido e estamos aguardando o pagamento para efetivação!";
+			status = "SUCCESS";
+			order = chalkBoardChildren.getOrderCode();
+			render("includes/formchildren.html", chalkBoardChildren, error, status, order);
 		}
 	}
 
@@ -78,63 +81,9 @@ public class ChalkBoardChildrenController extends CRUD {
 		json = json.concat("}");
 		return json;
 	}
-
-	private static String[] parseMapBody(String[] fields) {
-		JsonParser parser = new JsonParser();
-		JsonObject object = (JsonObject) parser.parse(fields[0]);
-		Set<Map.Entry<String, JsonElement>> set = object.entrySet();
-		int i = 0;
-		String parsedBody = "";
-		for (Iterator<Map.Entry<String, JsonElement>> iterator = set.iterator(); iterator.hasNext(); i++) {
-			Map.Entry<String, JsonElement> entry = iterator.next();
-			String key = entry.getKey();
-			JsonElement value = entry.getValue();
-			parsedBody = parsedBody.concat("chalkBoardChildren.").concat(key).concat("=").concat(
-					Utils.isNullOrEmpty(value.getAsString()) ? "" : new String(value.getAsString()).replace(" ", "+"));
-			if (i < (set.size() + 1)) {
-				parsedBody = parsedBody.concat("&");
-			}
-		}
-		String[] contentMap = new String[1];
-		contentMap[0] = parsedBody;
-		return contentMap;
+	
+	private static void moipNotification(String param) {
+		
 	}
 
-	private static Map<String, Object> parse(String json) {
-		JsonParser parser = new JsonParser();
-		JsonObject object = (JsonObject) parser.parse(json);
-		Set<Map.Entry<String, JsonElement>> set = object.entrySet();
-		Iterator<Map.Entry<String, JsonElement>> iterator = set.iterator();
-		Map<String, Object> map = new HashMap<String, Object>();
-		while (iterator.hasNext()) {
-			Map.Entry<String, JsonElement> entry = iterator.next();
-			String key = entry.getKey();
-			JsonElement value = entry.getValue();
-			if (!value.isJsonPrimitive()) {
-				String v = new String();
-				v = value.toString();
-				if (Utils.isNullOrEmpty(v)) {
-					v = new String();
-				}
-				map.put("chalkBoardChildren.".concat(key), parse(v));
-			} else {
-				map.put("chalkBoardChildren.".concat(key), new String(value.getAsString()));
-			}
-		}
-		return map;
-	}
-
-	private static boolean validateForm(ChalkBoardChildren chalkBoardChildren) {
-		boolean retorno = false;
-		validation.valid(chalkBoardChildren);
-		if (validation.hasErrors()) {
-			params.flash();
-			validation.keep();
-			render("includes/formchildren.html", chalkBoardChildren);
-			retorno = false;
-		} else {
-			retorno = true;
-		}
-		return retorno;
-	}
 }
