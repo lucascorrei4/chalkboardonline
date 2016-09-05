@@ -1130,6 +1130,30 @@ h2.general {
 	margin: 0 0 10px;
 }
 
+h2.grandma {
+	color: gray;
+	margin: 0;
+	font-size: 1.35em;
+	font-weight: 700;
+	margin: 0 0 10px;
+}
+
+h2.birth30 {
+	color: purple;
+	margin: 0;
+	font-size: 1.35em;
+	font-weight: 700;
+	margin: 0 0 10px;
+}
+
+h2.marriage {
+	color: green;
+	margin: 0;
+	font-size: 1.35em;
+	font-weight: 700;
+	margin: 0 0 10px;
+}
+
 .price-one h6 {
 	color: #000000;
 	margin: 9% 0 8% 23px;

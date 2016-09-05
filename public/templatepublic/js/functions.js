@@ -7,10 +7,46 @@ $(window).load(function() {
 		selectedModel.classList;
 		selectedModel.classList.add('active');
 	}
+	$('#auxSeeMore').val('1a3');
+	seeMore();
 });
 
 function highlightModel(element) {
 	element.style.background = '#F6F6F6';
+}
+
+function showModels() {
+	var aux = $('#auxSeeMore').val();
+	var list;
+	if ('1a3' === aux) {
+		list = [1, 2, 3];
+		list.forEach(function(id) {
+			$("#model" + id).fadeOut();
+		});
+		list = [4, 5, 6];
+		list.forEach(function(id) {
+			$("#model" + id).fadeIn();
+		});
+	} else {
+		list = [4, 5, 6];
+		list.forEach(function(id) {
+			$("#model" + id).fadeOut();
+		});
+		list = [1, 2, 3];
+		list.forEach(function(id) {
+			$("#model" + id).fadeIn();
+		});
+	}
+}
+
+function seeMore() {
+	var aux = $('#auxSeeMore').val();
+	if ('1a3' === aux) {
+		$('#auxSeeMore').val('4a6');
+	} else {
+		$('#auxSeeMore').val('1a3');
+	}
+	showModels();
 }
 
 function unHighlightModel(element) {
@@ -33,9 +69,9 @@ function chooseModel(element) {
 	var currentElement = element.id;
 	var hiddenModel = document.getElementById('model');
 	hiddenModel.value = currentElement;
-	var models = [ 'model1', 'model2', 'model3' ];
-	for ( var mod in models) {
-		var model = models[mod];
+	var models = $('.pricing-bottom').find('.pricing-left');
+	for (i = 0; i < models.length; i++) {
+		var model = models[i].id;
 		if (currentElement != model) {
 			var m = document.getElementById(model);
 			m.classList.remove('active');
@@ -101,31 +137,36 @@ function saveChildrenChalkBoardObj() {
 		return;
 	} else {
 		var formDataJSON = {};
-	    var formData = $('#formChalkBoardChildren').serializeArray();
-	    decodeURIComponent(formData);
-	    $.each(formData, function() {
-	        if (formDataJSON[this.name] !== undefined) {
-	            if (!formDataJSON[this.name].push) {
-	            	formDataJSON[this.name] = [formDataJSON[this.name]];
-	            }
-	            formDataJSON[this.name].push(this.value || '');
-	        } else {
-	        	formDataJSON[this.name] = this.value || '';
-	        }
-	    });
+		var formData = $('#formChalkBoardChildren').serializeArray();
+		decodeURIComponent(formData);
+		$.each(formData, function() {
+			if (formDataJSON[this.name] !== undefined) {
+				if (!formDataJSON[this.name].push) {
+					formDataJSON[this.name] = [ formDataJSON[this.name] ];
+				}
+				formDataJSON[this.name].push(this.value || '');
+			} else {
+				formDataJSON[this.name] = this.value || '';
+			}
+		});
 		$('#formChalkBoardChildren').load(
 				'/chalkboardchildrencontroller/savechalkboardchildren',
-				formDataJSON, function(response, status) {
+				formDataJSON,
+				function(response, status) {
 					anchorToPayment();
-					var status = $("#status").val(); 
+					var status = $("#status").val();
 					if ('SUCCESS' === status) {
 						$("[name='id_transacao']").val($("#orderCode").val());
 						$("[name='pagador_nome']").val($("#userName").val());
 						$("[name='pagador_email']").val($("#mail").val());
 						$("#message").css("color", "gray");
 						$("#message").show();
-						$("#message").html($("#response").val() + '<br /> Código do Pedido: ' + $("#orderCode").val() + '.');
-						$("#formChalkBoardChildren :input").attr("disabled", true);
+						$("#message").html(
+								$("#response").val()
+										+ '<br /> Código do Pedido: '
+										+ $("#orderCode").val() + '.');
+						$("#formChalkBoardChildren :input").attr("disabled",
+								true);
 					} else {
 						$("#message").css("color", "red");
 						$("#message").show();

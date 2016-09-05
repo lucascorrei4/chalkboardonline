@@ -12,6 +12,8 @@ GET     ${ctx}/                                       				Application.index
 
 # Home page
 POST    ${ctx}/save-new-children-chalkboard							ChalkBoardChildrenController.saveChalkBoardChildren
+GET    	${ctx}/como-funciona										Application.howItWorks
+GET    	${ctx}/contato												Application.contact
 
 GET     ${ctx}/admin/?	                      		Admin.index
 GET     ${ctx}/admin/{id}                     		Admin.form
